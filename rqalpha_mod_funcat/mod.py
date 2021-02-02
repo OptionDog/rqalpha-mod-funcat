@@ -21,7 +21,7 @@ from rqalpha.environment import Environment
 from rqalpha.core.events import EVENT
 from rqalpha.core.execution_context import ExecutionContext
 from rqalpha.const import EXECUTION_PHASE
-
+from .utils import get_int_date
 
 class FuncatAPIMod(AbstractMod):
     def start_up(self, env, mod_config):
