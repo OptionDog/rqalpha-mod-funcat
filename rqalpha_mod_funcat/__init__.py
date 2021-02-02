@@ -14,5 +14,5 @@
 
 
 def load_mod():
-    from rqalpha_mod_sys_funcat.mod import FuncatAPIMod
+    from rqalpha_mod_funcat.mod import FuncatAPIMod
     return FuncatAPIMod()

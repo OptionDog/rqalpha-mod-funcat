@@ -18,8 +18,8 @@ import six
 
 from rqalpha.interface import AbstractMod
 from rqalpha.environment import Environment
-from rqalpha.events import EVENT
-from rqalpha.execution_context import ExecutionContext
+from rqalpha.core.events import EVENT
+from rqalpha.core.execution_context import ExecutionContext
 from rqalpha.const import EXECUTION_PHASE
 
 
@@ -117,10 +117,15 @@ class FuncatAPIMod(AbstractMod):
 
             def get_trading_dates(self, start, end):
                 """获取所有的交易日
+
                 :param start: 20160101
                 :param end: 20160201
                 """
-                raise NotImplementedError
+                start = get_date_from_int(start)
+                end = get_date_from_int(end)
+                trading_dates = self.rqalpha_env.data_proxy.get_trading_dates(start, end).tolist()
+                trading_dates = [get_int_date(dt.date()) for dt in trading_dates]
+                return trading_dates
 
             def get_start_date(self):
                 """获取回溯开始时间
@@ -139,7 +144,7 @@ class FuncatAPIMod(AbstractMod):
         funcat.set_data_backend(RQAlphaDataBackend())
 
         # register funcat api into rqalpha
-        from rqalpha.api.api_base import register_api
+        from rqalpha.api import register_api
         for name in dir(funcat):
             obj = getattr(funcat, name)
             if getattr(obj, "__module__", "").startswith("funcat"):
